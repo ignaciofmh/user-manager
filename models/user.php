@@ -28,6 +28,30 @@ class User
         }
     }
 
+
+    public function delete()
+    {
+        $sql = "DELETE FROM `usuarios` WHERE id=".$this->getId();
+        $delete = $this->db->query($sql);
+        if ($delete) { 
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function update()
+    {
+        $sql = "UPDATE `usuarios` SET `nombre`='{$this->getNombre()}',`apellido`='{$this->getApellido()}',`email`='{$this->getEmail()}',`password`='{$this->getPassword()}',`rol`='{$this->getRol()}' WHERE id=".$this->getId();
+
+        $update = $this->db->query($sql);
+        if ($update) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     
     public function login()
     {
@@ -37,10 +61,6 @@ class User
 
         $sql = "select * from usuarios where email like '$email';";
         $login = $this->db->query($sql);
-        var_dump($login);
-        var_dump($sql);
-        exit();
-
 
         if ($login && $login->num_rows==1) {
             $user = $login->fetch_object();
@@ -49,6 +69,25 @@ class User
         }
         if (password_verify($pass,$user->password)) {
             return $user;
+        }else{
+            return false;
+        }
+    }
+
+    
+    public function getAll()
+    {
+        $sql = "select * from usuarios;";
+        $all = $this->db->query($sql);
+
+        $usersList = [];
+
+        if ($all && $all->num_rows>=1) {
+            while($user = $all->fetch_object()){
+                $users = $user;
+                array_push($usersList,$users);
+            }
+            return $usersList;
         }else{
             return false;
         }

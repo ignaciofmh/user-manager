@@ -7,28 +7,21 @@
     
     $utils = new Utils();
     $utils->deleteSession('register');
-    
-$url= $_SERVER["REQUEST_URI"];
-
 ?>
 
-<div id="lista_usuarios" style="width: <?php if ($url=='/user/register') {
-    echo "100vw; margin-top: 2rem;";
-}else{
-    echo "90vw;";
-}
-?> height: 82%;" class="px-3">
+<div id="lista_usuarios" style="width: 90vw; height: 82%;" class="px-3">
 
-<h1 style="text-align: center; font-size: 2rem; padding-bottom: 1rem;">Nuevo usuario</h1>
+<h1 style="text-align: center; font-size: 2rem; padding-bottom: 0rem;">Editar perfil</h1>
 
-    
-    <div class="row justify-content-md-center" style="margin-left: auto;">
-                <div class="col-md-10 col-lg-8">
-                    <form class="needs-validation" novalidate action="<?=base_url?>/user/save" method="POST">
+
+<div class="row justify-content-md-center" style="margin: auto;">
+                <div class="col-md-8 col-lg-8">
+                    <form class="needs-validation" novalidate action="<?=base_url?>/user/update" method="POST">
                         <div class="row g-3">
+                            <input type="text" name="id" readonly="readonly" hidden value="<?php if(isset($_GET['id'])){echo $_GET['id'];}?>">
                             <div class="col-sm-6">
                                 <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Ingresa tu nombre" value="" required>
+                                <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Ingresa tu nombre" value="<?php if(isset($_GET['nombre'])){echo $_GET['nombre'];}?>" required>
                                 <div class="invalid-feedback">
                                     Por favor, ingresa tu nombre.
                                 </div>
@@ -36,7 +29,7 @@ $url= $_SERVER["REQUEST_URI"];
 
                             <div class="col-sm-6">
                                 <label for="apellido" class="form-label">Apellido</label>
-                                <input type="text" class="form-control" name="apellido" id="apellido" placeholder="Ingresa tu apellido" value="" required>
+                                <input type="text" class="form-control" name="apellido" id="apellido" placeholder="Ingresa tu apellido" value="<?php if(isset($_GET['apellido'])){echo $_GET['apellido'];}?>" required>
                                 <div class="invalid-feedback">
                                     Por favor, ingresa tu apellido.
                                 </div>
@@ -46,7 +39,7 @@ $url= $_SERVER["REQUEST_URI"];
                                 <label for="username" class="form-label">Email</label>
                                 <div class="input-group has-validation">
                                     <span class="input-group-text">@</span>
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Ingresa tu email" required>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Ingresa tu email" value="<?php if(isset($_GET['email'])){echo $_GET['email'];}?>"  required>
                                     <div class="invalid-feedback">
                                     Por favor, ingresa tu email.
                                     </div>
@@ -70,7 +63,7 @@ $url= $_SERVER["REQUEST_URI"];
                             </div>
 
 
-                            <button class="w-100 btn btn-primary btn-lg" style="margin-bottom: 4rem;"  type="submit">Registrar</button>
+                            <button class="w-100 btn btn-primary btn-lg" style="margin-bottom: 4rem;" type="submit">Guardar</button>
                     </form>
                     </div>
                 </div>

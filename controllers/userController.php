@@ -10,13 +10,32 @@ class userController
     {
         require_once 'views/user/register.php';
     }
+    public function create()
+    {
+        require_once 'views/layout/sidebar.php';
+        require_once 'views/user/register.php';
+    }
+    public function change()
+    {
+        require_once 'views/layout/sidebar.php';
+        require_once 'views/user/change.php';
+    }
+
+    public function listar()
+    {
+        $user = new User();
+        $usersList = $user->getAll();
+        require_once 'views/layout/sidebar.php';
+        require_once 'views/user/listar.php';
+    }
     public function login()
     {
-        if (!isset($_POST['email'])) {
+        var_dump($_POST);
+        if (empty($_POST['email'])) {
 
             $_SESSION['login'] = 'email';
 
-        } else if (!isset($_POST['pass'])) {
+        } else if (empty($_POST['pass'])) {
 
             $_SESSION['login'] = 'pass';
 
@@ -33,7 +52,7 @@ class userController
             if ($login != false) {
 
                 $_SESSION['user'] = $login;
-                //header('Location: ');
+                header('Location: '.base_url.'/user/listar');
 
             }else{
 
@@ -41,6 +60,7 @@ class userController
 
             }
         }
+        header('Location: '.base_url.'/user/index');
     }
     public function save()
     {
@@ -89,6 +109,57 @@ class userController
         }
 
         header('Location: '.base_url.'/user/register');
+    }
+
+    public function update()
+    {
+        if (!isset($_POST['nombre'])) {
+
+            $_SESSION['register'] = 'nombre';
+
+        } else if (!isset($_POST['apellido'])) {
+
+            $_SESSION['register'] = 'apellido';
+
+        } else if (!isset($_POST['email'])) {
+
+            $_SESSION['register'] = 'email';
+
+        } else if (!isset($_POST['pass'])) {
+
+            $_SESSION['register'] = 'pass';
+
+        } else if (!isset($_POST['pass2'])) {
+
+            $_SESSION['register'] = 'pass2';
+
+        } else {
+
+            if ($_POST['pass'] == $_POST['pass2']) {
+
+                $user = new User();
+                $user->setId($_POST['id']);
+                $user->setNombre($_POST['nombre']);
+                $user->setApellido($_POST['apellido']);
+                $user->setEmail($_POST['email']);
+                $user->setPassword($_POST['pass']);
+                $user->setRol('user');
+
+                if ($user->update()) {
+                    echo "Registro completado";
+                    $_SESSION['register'] = 'completed';
+                } else {
+                    echo "Registro fallido";
+                    $_SESSION['register'] = 'failed';
+                }
+            } else {
+
+                $_SESSION['register'] = 'failed';
+
+            }
+        }
+
+        header('Location: '.base_url.'/user/change');
     }
 
 }
